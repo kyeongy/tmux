@@ -60,6 +60,9 @@ recalculate_sizes(void)
 		TAILQ_FOREACH(c, &clients, entry) {
 			if (c->flags & CLIENT_SUSPENDED)
 				continue;
+			/* Do not allow read-only client changing the window size */
+			if (c->flags & CLIENT_READONLY)
+				continue;
 			if (c->session == s) {
 				if (c->tty.sx < ssx)
 					ssx = c->tty.sx;
